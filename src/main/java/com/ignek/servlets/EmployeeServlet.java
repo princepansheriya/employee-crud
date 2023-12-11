@@ -29,11 +29,11 @@ public class EmployeeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String idParam = request.getParameter(EmployeeConstant.ID);
-		
-		int userId=0;
+
+		int userId = 0;
 		if (!(idParam.isEmpty() || idParam.isBlank())) {
-			   userId = Integer.parseInt(idParam);
-			}
+			userId = Integer.parseInt(idParam);
+		}
 
 		String firstName = request.getParameter(EmployeeConstant.FIRST_NAME);
 		String lastName = request.getParameter(EmployeeConstant.LAST_NAME);
@@ -44,12 +44,12 @@ public class EmployeeServlet extends HttpServlet {
 		Employee employee = new Employee(userId, firstName, lastName, email, mobileNumber, gender);
 		int status = 0;
 		if (userId > 0) {
-			  status = EmployeeDao.update(employee);
-	
+			status = EmployeeDao.update(employee);
+
 		} else {
 			status = EmployeeDao.save(employee);
-			
-		} 
+
+		}
 
 		if (status > 0) {
 
