@@ -49,7 +49,7 @@ public class EmployeeServlet extends HttpServlet {
 		} else {
 			status = EmployeeDao.save(employee);
 			
-		}
+		} 
 
 		if (status > 0) {
 
