@@ -40,7 +40,7 @@ input {
 input[type="radio"] {
 	margin-right: 5px;
 	margin-bottom: 5px; 
-
+}
 input[type="submit"], input[type="reset"] {
 	width: 48%;
 	background-color: #4caf50;
