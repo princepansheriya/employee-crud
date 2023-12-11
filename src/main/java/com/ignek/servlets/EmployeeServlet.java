@@ -28,18 +28,18 @@ public class EmployeeServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String idParam = request.getParameter("id");
+		String idParam = request.getParameter(EmployeeConstant.ID);
 		
 		int userId=0;
 		if (!(idParam.isEmpty() || idParam.isBlank())) {
 			   userId = Integer.parseInt(idParam);
 			}
 
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String email = request.getParameter("email");
-		String mobileNumber = request.getParameter("mobileNumber");
-		String gender = request.getParameter("gender");
+		String firstName = request.getParameter(EmployeeConstant.FIRST_NAME);
+		String lastName = request.getParameter(EmployeeConstant.LAST_NAME);
+		String email = request.getParameter(EmployeeConstant.EMAIL);
+		String mobileNumber = request.getParameter(EmployeeConstant.MOBILE_NUMBER);
+		String gender = request.getParameter(EmployeeConstant.GENDER);
 
 		Employee employee = new Employee(userId, firstName, lastName, email, mobileNumber, gender);
 		int status = 0;

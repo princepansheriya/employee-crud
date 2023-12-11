@@ -9,7 +9,6 @@ public class Employee {
 	private String gender;
 
 	public Employee() {
-
 	}
 
 	public Employee(String firstName, String lastName, String email, String mobileNumber, String gender) {
