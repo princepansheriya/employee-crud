@@ -28,7 +28,6 @@ public class GetAllEmployees extends HttpServlet {
         List<Employee> employees = EmployeeDao.getAllRecords();
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(employees);
-        System.out.println(json);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
