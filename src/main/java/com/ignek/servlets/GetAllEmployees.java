@@ -20,19 +20,23 @@ public class GetAllEmployees extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         
-        System.out.println("GetAllEmployees servlet is called.");
 
         getServletContext().log("Debug: Test");
 
-        List<Employee> employees = EmployeeDao.getAllRecords();
-        ObjectWriter ObjectWrite = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ObjectWrite.writeValueAsString(employees);
+        String searchTerm = request.getParameter("searchTerm");
+        List<Employee> employees = EmployeeDao.getAllRecords(searchTerm);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(employees);
+       
 
         response.setContentType("application/json");
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
     }
 
 }
+
