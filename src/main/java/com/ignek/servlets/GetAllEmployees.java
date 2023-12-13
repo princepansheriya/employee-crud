@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.ignek.constant.EmployeeConstant;
 import com.ignek.dao.EmployeeDao;
 import com.ignek.model.Employee;
 
@@ -20,19 +21,22 @@ public class GetAllEmployees extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         
-        System.out.println("GetAllEmployees servlet is called.");
 
-        getServletContext().log("Debug: Test");
+        getServletContext().log(EmployeeConstant.DEBUG_TEST);
 
-        List<Employee> employees = EmployeeDao.getAllRecords();
-        ObjectWriter ObjectWrite = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ObjectWrite.writeValueAsString(employees);
+        String searchTerm = request.getParameter(EmployeeConstant.SEARCH_TERM);
+        List<Employee> employees = EmployeeDao.getAllRecords(searchTerm);
 
-        response.setContentType("application/json");
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
+        ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = objectWriter.writeValueAsString(employees);
+        
+
+        response.setContentType(EmployeeConstant.APPLICATION_JSON);
+        response.setCharacterEncoding(EmployeeConstant.UTF_8);
         response.getWriter().write(json);
     }
 
 }
+
