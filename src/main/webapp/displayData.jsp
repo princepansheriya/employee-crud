@@ -32,45 +32,40 @@ th {
 }
 </style>
 <script>
-        $(document).ready(function() {
-           
-            var contextPath = "<%=request.getContextPath()%>";
+$(document).ready(function() {
+    var contextPath = "<%=request.getContextPath()%>";
 
-				function loadData() {
-					$.ajax({
-						type : 'GET',
-						url : contextPath + '/employeeList',
-						dataType : 'json',
-						success : function(data) {
+    function loadData(searchTerm) {
+        $.ajax({
+            type: 'GET',
+            url: contextPath + '/employeeList',
+            dataType: 'json',
+            data: { searchTerm: searchTerm }, 
+            success: function(data) {
+                var employeeList = data;
+                $('table tbody').empty();
 
-							var employeeList = data;
+                $.each(employeeList, function(index, employee) {
+                    var row = "<tr>" + "<td>" + employee.id + "</td>" + "<td>" + employee.firstName + "</td>" + "<td>" + employee.lastName + "</td>" + "<td>" + employee.email + "</td>" + "<td>" + employee.mobileNumber + "</td>" + "<td>" + employee.gender + "</td>" + "<td><a href='" + contextPath + "/update?id=" + employee.id + "'>Edit</a></td>" + "<td><a href='" + contextPath + "/deleteUser?id=" + employee.id + "'>Delete</a></td>" + "</tr>";
+                    $('table tbody').append(row);
+                });
 
-							$('table tbody').empty();
+                if (employeeList.length === 0) {
+                    $('.no-records').show();
+                } else {
+                    $('.no-records').hide();
+                }
+            },
+            error: function(error) {
+                console.error('Error loading data: ' + error.responseText);
+            }
+        });
+    }
 
-							$.each(employeeList, function(index, employee) {
-								var row = "<tr>" + "<td>" + employee.id
-										+ "</td>" + "<td>" + employee.firstName
-										+ "</td>" + "<td>" + employee.lastName
-										+ "</td>" + "<td>" + employee.email
-										+ "</td>" + "<td>"
-										+ employee.mobileNumber + "</td>"
-										+ "<td>" + employee.gender + "</td>"
-										+ "<td><a href='" + contextPath
-										+ "/update?id=" + employee.id
-										+ "'>Edit</a></td>" + "<td><a href='"
-										+ contextPath + "/deleteUser?id="
-										+ employee.id + "'>Delete</a></td>"
-										+ "</tr>";
-								$('table tbody').append(row);
-							});
-
-							if (employeeList.length === 0) {
-								$('.no-records').show();
-							} else {
-								$('.no-records').hide();
-							}
-						},
-						error : function(error) {
+    $('#searchButton').on('click', function() {
+        var searchTerm = $('#searchBox').val();
+        loadData(searchTerm);
+    });
 							console.error('Error loading data: '
 									+ error.responseText);
 						}

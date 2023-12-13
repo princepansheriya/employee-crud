@@ -38,30 +38,52 @@ import com.ignek.model.Employee;
 			return status;
 		}
 	
-		public static List<Employee> getAllRecords() {
-			List<Employee> list = new ArrayList<>();
-	
-			try {
-				Connection connection = getConnection();
-				PreparedStatement ps = connection.prepareStatement(EmployeeConstant.SELECT_ALL_EMPLOYEES);
-				ResultSet rs = ps.executeQuery();
-				while (rs.next()) {
-					Employee user = new Employee();
-					user.setId(rs.getInt(EmployeeConstant.ID));
-					user.setFirstName(rs.getString(EmployeeConstant.FIRST_NAME));
-					user.setLastName(rs.getString(EmployeeConstant.LAST_NAME));
-					user.setEmail(rs.getString(EmployeeConstant.EMAIL));
-					user.setMobileNumber(rs.getString(EmployeeConstant.MOBILE_NUMBER));
-					user.setGender(rs.getString(EmployeeConstant.GENDER));
+		public static List<Employee> getAllRecords(String searchTerm) {
+		    List<Employee> list = new ArrayList<>();
 
-					list.add(user);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			return list;
+		    try {
+		        Connection connection = getConnection();
+		        String query;
+
+		        if (searchTerm != null && !searchTerm.isEmpty()) {
+		            query = "SELECT * FROM employee " +
+		                    "WHERE id LIKE ? OR " +
+		                    "firstName LIKE ? OR " +
+		                    "lastName LIKE ? OR " +
+		                    "email LIKE ? OR " +
+		                    "mobileNumber LIKE ? OR " +
+		                    "gender LIKE ?";
+		        } else {
+		            query = "SELECT * FROM employee";
+		        }
+
+		        PreparedStatement ps = connection.prepareStatement(query);
+
+		        if (searchTerm != null && !searchTerm.isEmpty()) {
+		            for (int i = 1; i <= 6; i++) {
+		                ps.setString(i, "%" + searchTerm + "%");
+		            }
+		        }
+
+		        ResultSet rs = ps.executeQuery();
+
+		        while (rs.next()) {
+		            Employee user = new Employee();
+		            user.setId(rs.getInt(EmployeeConstant.ID));
+		            user.setFirstName(rs.getString(EmployeeConstant.FIRST_NAME));
+		            user.setLastName(rs.getString(EmployeeConstant.LAST_NAME));
+		            user.setEmail(rs.getString(EmployeeConstant.EMAIL));
+		            user.setMobileNumber(rs.getString(EmployeeConstant.MOBILE_NUMBER));
+		            user.setGender(rs.getString(EmployeeConstant.GENDER));
+
+		            list.add(user);
+		        }
+		    } catch (Exception e) {
+		        System.out.println(e);
+		    }
+		    return list;
 		}
-	
+
 		public static int delete(int id) {
 		    int status = 0;
 		    try {
@@ -118,6 +140,6 @@ import com.ignek.model.Employee;
 		    }
 		    return status;
 		}
-	
+		
 	
 	}
