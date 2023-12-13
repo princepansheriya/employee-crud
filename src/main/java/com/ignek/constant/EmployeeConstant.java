@@ -1,5 +1,6 @@
 package com.ignek.constant;
 
+
 public class EmployeeConstant {
 	
 	public static final String JDBC_URL = "jdbc:mysql://localhost:3306/ignek";
@@ -30,4 +31,13 @@ public class EmployeeConstant {
     public static final String EMAIL = "email";
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String GENDER = "gender";
+    public static final String PERCENT = "%";
+    
+    public static final String DEBUG_TEST = "Debug: Test";
+    public static final String SEARCH_TERM = "searchTerm";
+    public static final String APPLICATION_JSON = "application/json";
+    public static final String UTF_8 = "UTF-8";
+    
+    
+    
 }

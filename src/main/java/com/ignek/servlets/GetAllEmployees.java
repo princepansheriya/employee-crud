@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.ignek.constant.EmployeeConstant;
 import com.ignek.dao.EmployeeDao;
 import com.ignek.model.Employee;
 
@@ -23,18 +24,17 @@ public class GetAllEmployees extends HttpServlet {
 
         
 
-        getServletContext().log("Debug: Test");
+        getServletContext().log(EmployeeConstant.DEBUG_TEST);
 
-        String searchTerm = request.getParameter("searchTerm");
+        String searchTerm = request.getParameter(EmployeeConstant.SEARCH_TERM);
         List<Employee> employees = EmployeeDao.getAllRecords(searchTerm);
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(employees);
-       
+        ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = objectWriter.writeValueAsString(employees);
+        
 
-        response.setContentType("application/json");
-
-        response.setCharacterEncoding("UTF-8");
+        response.setContentType(EmployeeConstant.APPLICATION_JSON);
+        response.setCharacterEncoding(EmployeeConstant.UTF_8);
         response.getWriter().write(json);
     }
 
